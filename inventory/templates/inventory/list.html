@@ -1,0 +1,64 @@
+{% extends 'inventory/base.html' %} {% block content %}
+<h2>Inventory List</h2>
+
+<!-- Links for Dashboard and Adding New Item -->
+<div class="mb-3">
+  <a href="{% url 'dashboard' %}" class="btn btn-secondary">Dashboard</a>
+  <a href="{% url 'add_inventory_item' %}" class="btn btn-primary"
+    >Add New Item</a
+  >
+</div>
+
+<!-- Inventory Items Table -->
+<table class="table table-hover">
+  <thead class="thead-light">
+    <tr>
+      <th>Image</th>
+      <!-- New column for images -->
+      <th>Name</th>
+      <th>Category</th>
+      <th>Quantity</th>
+      <th>Reorder Level</th>
+      <th>Price</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in items %}
+    <tr>
+      <td>
+        {% if item.image %}
+        <img
+          src="{{ item.image.url }}"
+          alt="Image for {{ item.name }}"
+          width="100"
+          height="100"
+        />
+        {% else %} No image {% endif %}
+      </td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.category }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.reorder_level }}</td>
+      <td>{{ item.price }}</td>
+      <td>
+        <a
+          href="{% url 'edit_inventory_item' item.pk %}"
+          class="btn btn-sm btn-warning"
+          >Edit</a
+        >
+        <a
+          href="{% url 'delete_inventory_item' item.pk %}"
+          class="btn btn-sm btn-danger"
+          >Delete</a
+        >
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="7">No inventory items found.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
