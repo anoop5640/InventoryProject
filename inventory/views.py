@@ -18,17 +18,33 @@ def inventory_list(request):
 
 # View for adding a new inventory item
 def add_inventory_item(request):
-    """View to add a new inventory item."""
-    
     if request.method == 'POST':
         form = InventoryItemForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('inventory_list')
+            new_item = form.save()
+
+            # Upload the image to S3
+            if 'image' in request.FILES:
+                image_file = request.FILES['image']
+                s3_client = boto3.client('s3')
+
+                try:
+                    s3_client.upload_fileobj(
+                        image_file,
+                        settings.AWS_STORAGE_BUCKET_NAME,
+                        f'inventory_images/{image_file.name}',
+                        ExtraArgs={'ACL': 'public-read'}  # Make the file public
+                    )
+                    new_item.image.name = f'inventory_images/{image_file.name}'
+                    new_item.save()
+                except Exception as e:
+                    print(f"Error uploading image to S3: {e}")
+
+            return redirect('inventory_list')  # Replace with your appropriate redirect
     else:
         form = InventoryItemForm()
-    return render(request, 'inventory/add_edit_item.html', {'form': form})
 
+    return render(request, 'inventory/add_edit_item.html', {'form': form})
 
 # View for editing an existing inventory item
 def edit_inventory_item(request, pk):
