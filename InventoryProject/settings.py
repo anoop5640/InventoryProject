@@ -136,7 +136,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+aws_access_key_id='ASIASQKJU2ADQEYP65F6'
+aws_secret_access_key='Ebtjdbc6YEFjjY5KUyEhrEzjFqSY13CyByYiaxut'
+region = 'us-east-1'
 
 AWS_STORAGE_BUCKET_NAME = 'inventoryproj'
 AWS_S3_REGION_NAME = 'us-east-1'  
