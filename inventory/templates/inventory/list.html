@@ -1,7 +1,7 @@
 {% extends 'inventory/base.html' %} {% block content %}
 <h2>Inventory List</h2>
 
-<!-- Links for Dashboard and Adding New Item -->
+<!--  for Dashboard and Adding New Item -->
 <div class="mb-3">
   <a href="{% url 'dashboard' %}" class="btn btn-secondary">Dashboard</a>
   <a href="{% url 'add_inventory_item' %}" class="btn btn-primary"
@@ -14,7 +14,7 @@
   <thead class="thead-light">
     <tr>
       <th>Image</th>
-      <!-- New column for images -->
+
       <th>Name</th>
       <th>Category</th>
       <th>Quantity</th>
